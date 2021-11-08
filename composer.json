@@ -1,0 +1,28 @@
+{
+    "name": "avast/formfields",
+    "description": "Avast formfields package",
+    "license": "MIT",
+    "version": "1.0.1",
+    "authors": [
+        {
+            "name": "AvastBY",
+            "email": "ak9594140@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "tcg/voyager": ">=1.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Avast\\Formfields\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Avast\\Formfields\\Providers\\FormFieldsServiceProvider"
+            ]
+        }
+    }
+}
