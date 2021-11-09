@@ -1,20 +1,28 @@
 <br>
+@php
+    $required = ($row->required == 1);
+@endphp
 @if(isset($dataTypeContent->{$row->field}))
     <?php $images = json_decode($dataTypeContent->{$row->field}); ?>
+
     @if($images != null)
+        @php
+            $required = false;
+        @endphp
         <div class="multiple-images">
             @foreach($images as $image)
                 <div class="img_settings_container" data-field-name="{{ $row->field }}">
-                    <img src="{{ Voyager::image( $image->name ) }}" data-image="{{ $image->name }}" data-id="{{ $dataTypeContent->getKey() }}">
+                    <img src="{{ Voyager::image( $image->name ) }}" data-image="{{ $image->name }}" data-id="{{ $dataTypeContent->blockId }}">
                     <div class="links">
                         <a href="#" class="voyager-params show-inputs"></a>
                         <a href="#" class="voyager-x remove-multi-image-ext"></a>
                     </div>
 
                     <div class="form-group">
-                        <label><b>Alt:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][alt]" value="{{ $image->alt }}"></label>
-                        <label><b>Title:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][title]" value="{{ $image->title }}"></label>
-                        <label><b>Description:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][description]" value="{{ $image->description }}"></label>
+                        <label><b>Alt:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][alt]" value="{{ $image->alt }}" autocomplete="off"></label>
+                        <label><b>Title:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][title]" value="{{ $image->title }}" autocomplete="off"></label>
+                        <label><b>Description:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][description]" value="{{ $image->description }}" autocomplete="off"></label>
+                        <input type="hidden" name="{{ $row->field }}_ext[{{ $loop->index }}][name]" value="{{ $image->name }}">
                     </div>
 
                 </div>
@@ -25,7 +33,7 @@
 @endif
 <div class="images-for-upload multiple-images" data-id="{{ $row->field }}"></div>
 <div class="clearfix"></div>
-<input data-load-photo="true" @if($row->required == 1) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
+<input data-load-photo="true" @if($required) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
 
 <script>
 
@@ -55,9 +63,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                             </div>
 
                                             <div class="form-group" style="display: block">
-                                                <label><b>Alt:</b><input class="form-control" type="text" name="`+name+`_new[`+i+`][alt]"></label>
-                                                <label><b>Title:</b><input class="form-control" type="text" name="`+name+`_new[`+i+`][title]"></label>
-                                                <label><b>Description:</b><input class="form-control" type="text" name="`+name+`_new[`+i+`][description]"></label>
+                                                <label><b>Alt:</b><input class="form-control" type="text" name="`+name+`_new[`+i+`][alt]" autocomplete="off"></label>
+                                                <label><b>Title:</b><input class="form-control" type="text" name="`+name+`_new[`+i+`][title]" autocomplete="off"></label>
+                                                <label><b>Description:</b><input class="form-control" type="text" name="`+name+`_new[`+i+`][description]" autocomplete="off"></label>
                                             </div>
                                         `);
 
@@ -113,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     $('#confirm_delete').on('click', function(){
-        $.post('{{ route('voyager.'.$dataType->slug.'.media.remove') }}', params, function (response) {
+        $.post('{{ ($dataType->slug == 'composite') ?  route($dataType->slug.'.media.remove') : route('voyager.'.$dataType->slug.'.media.remove') }}', params, function (response) {
             if ( response
                 && response.data
                 && response.data.status
@@ -138,18 +146,11 @@ document.addEventListener('DOMContentLoaded', function(){
 .remove-image-for-upload{
     cursor: pointer;
 }
-.images-for-upload img{
-    max-width: 200px;
-    height: auto;
-    display: block;
-    padding: 2px;
-    border: 1px solid #ddd;
-    margin-bottom: 5px;
-}
 .multiple-images{
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    width: 100%;
 }
 .multiple-images .links{
     justify-content: center;
@@ -163,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function(){
     flex-direction: column;
     margin-right: 10px;
 }
+.images-for-upload img,
 .multiple-images img{
     max-width:200px;
     height:auto;
@@ -170,7 +172,13 @@ document.addEventListener('DOMContentLoaded', function(){
     padding:2px;
     border:1px solid #ddd;
     margin-bottom:5px;
+    width: 100%;
 }
+.vpb-image-group .images-for-upload img,
+.vpb-image-group .multiple-images img{
+    width: 100%!important;
+}
+
 .multiple-images .form-group{
     display: none;
 }

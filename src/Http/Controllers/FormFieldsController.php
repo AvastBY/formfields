@@ -17,6 +17,7 @@ class FormFieldsController extends VoyagerBaseController
 
     public function getContentBasedOnType(Request $request, $slug, $row, $options = null)
     {
+
         switch ($row->type) {
 
             case 'values_list':
@@ -33,6 +34,7 @@ class FormFieldsController extends VoyagerBaseController
 
     public function insertUpdateData($request, $slug, $rows, $data)
     {
+
         foreach ($rows as $row) {
             if ($row->type == 'attributed_gallery'){
                 $attributed_gallery= 1;
@@ -43,6 +45,7 @@ class FormFieldsController extends VoyagerBaseController
         }
 
         $new_data = VoyagerBaseController::insertUpdateData($request, $slug, $rows, $data);
+
         if(isset($attributed_gallery)){
             foreach ($rows as $row) {
                 $content = $new_data->$fieldName;

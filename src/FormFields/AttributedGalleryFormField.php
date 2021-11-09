@@ -15,6 +15,6 @@ class AttributedGalleryFormField extends AbstractHandler
             'options' => $options,
             'dataType' => $dataType,
             'dataTypeContent' => $dataTypeContent,
-            ]);
+        ]);
     }
 }

@@ -16,14 +16,14 @@ class AttrGalleryContentType extends BaseType
         if ($this->request->file($this->row->field)){
             $pathes = (new MultipleImage($this->request, $this->slug, $this->row, $this->options))->handle();
             foreach (json_decode($pathes) as $i => $path) {
+                $new = $this->request->input($this->row->field.'_new');
                 $files[$i]['name'] = $path;
-                $files[$i]['alt'] = '';
-                $files[$i]['title'] = '';
-                $files[$i]['description'] = '';
+                $files[$i]['alt'] = empty($new[$i]['alt']) ? '' : $new[$i]['alt'];
+                $files[$i]['title'] = empty($new[$i]['title']) ? '' : $new[$i]['title'];
+                $files[$i]['description'] = empty($new[$i]['description']) ? '' : $new[$i]['description'];
             }
-
         }
-        return json_encode($files);
 
+        return json_encode($files);
     }
 }
