@@ -12,7 +12,7 @@
         <div class="multiple-images">
             @foreach($images as $image)
                 <div class="img_settings_container" data-field-name="{{ $row->field }}">
-                    <img src="{{ Voyager::image( $image->name ) }}" data-image="{{ $image->name }}" data-id="{{ $dataTypeContent->blockId }}">
+                    <img src="{{ Voyager::image( $image->src ) }}" data-image="{{ $image->src }}" data-id="{{ $dataTypeContent->blockId }}">
                     <div class="links">
                         <a href="#" class="voyager-params show-inputs"></a>
                         <a href="#" class="voyager-x remove-multi-image-ext"></a>
@@ -22,7 +22,7 @@
                         <label><b>Alt:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][alt]" value="{{ $image->alt }}" autocomplete="off"></label>
                         <label><b>Title:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][title]" value="{{ $image->title }}" autocomplete="off"></label>
                         <label><b>Description:</b><input class="form-control" type="text" name="{{ $row->field }}_ext[{{ $loop->index }}][description]" value="{{ $image->description }}" autocomplete="off"></label>
-                        <input type="hidden" name="{{ $row->field }}_ext[{{ $loop->index }}][name]" value="{{ $image->name }}">
+                        <input type="hidden" name="{{ $row->field }}_ext[{{ $loop->index }}][src]" value="{{ $image->src }}">
                     </div>
 
                 </div>

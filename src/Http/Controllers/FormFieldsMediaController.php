@@ -41,7 +41,7 @@ class FormFieldsMediaController extends VoyagerMediaController
 
                 if (count($dataRow->details->thumbnails) > 0) {
                     for ($i=0; $i < count($dataRow->details->thumbnails); $i++) {
-                        $nameThumbnails = $dataRow->details->thumbnails[$i]->name;
+                        $nameThumbnails = $dataRow->details->thumbnails[$i]->src;
 
                         // Thumbnails
                         $imageThumbnail = $exploded[0].'-'.$nameThumbnails.'.'.$exploded[1];

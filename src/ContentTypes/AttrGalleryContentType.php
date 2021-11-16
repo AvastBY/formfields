@@ -17,7 +17,7 @@ class AttrGalleryContentType extends BaseType
             $pathes = (new MultipleImage($this->request, $this->slug, $this->row, $this->options))->handle();
             foreach (json_decode($pathes) as $i => $path) {
                 $new = $this->request->input($this->row->field.'_new');
-                $files[$i]['name'] = $path;
+                $files[$i]['src'] = $path;
                 $files[$i]['alt'] = empty($new[$i]['alt']) ? '' : $new[$i]['alt'];
                 $files[$i]['title'] = empty($new[$i]['title']) ? '' : $new[$i]['title'];
                 $files[$i]['description'] = empty($new[$i]['description']) ? '' : $new[$i]['description'];
