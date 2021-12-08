@@ -6,6 +6,7 @@
     <?php $images = json_decode($dataTypeContent->{$row->field}); ?>
 
     @if($images != null)
+
         @php
             $required = false;
         @endphp
@@ -34,7 +35,6 @@
 <div class="images-for-upload multiple-images" data-id="{{ $row->field }}"></div>
 <div class="clearfix"></div>
 <input data-load-photo="true" @if($required) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
-
 <script>
 
 document.addEventListener('DOMContentLoaded', function(){

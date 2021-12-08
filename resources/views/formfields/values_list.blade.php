@@ -1,17 +1,24 @@
 @php
-    if($dataTypeContent->{$row->field}){
-        $old_parameters = json_decode($dataTypeContent->{$row->field});
+    if(!empty($dataTypeContent->{$row->field})){
+        if(is_array($dataTypeContent->{$row->field})){
+            $old_parameters = $dataTypeContent->{$row->field};
+        }else{
+            $old_parameters = json_decode($dataTypeContent->{$row->field});
+        }
+        foreach ($old_parameters as $key => $it) {
+            if(is_null($it)) unset($old_parameters[$key]);
+        }
     }
     $end_id = 0;
 @endphp
 
 
 <div class="values-list">
-@if($dataTypeContent->{$row->field})
+@if(!empty($dataTypeContent->{$row->field}))
     @foreach($old_parameters as $parameter)
         <div class="form-group row" row-id="{{$loop->index}}">
-            <div class="col-xs-3" style="margin-bottom:0;">
-                <input type="text" class="form-control" name="{{ $row->field }}[{{$loop->index}}]" value="{{ $parameter }}" id="value"/>
+            <div class="col-xs-8" style="margin-bottom:0;">
+                <input type="text" class="form-control" name="{{ $row->field }}[{{$loop->index}}]" value="{{ $parameter }}" id="value" autocomplete="off"/>
             </div>
 
             <div class="col-xs-1" style="margin-bottom:0;">
@@ -24,8 +31,8 @@
     @endforeach
 @endif
     <div class="form-group row" row-id="{{ $end_id }}">
-        <div class="col-xs-3" style="margin-bottom:0;">
-            <input type="text" class="form-control" name="{{ $row->field }}[{{ $end_id }}]" value="" id="value"/>
+        <div class="col-xs-8" style="margin-bottom:0;">
+            <input type="text" class="form-control" name="{{ $row->field }}[{{ $end_id }}]" value="" id="value" autocomplete="off"/>
         </div>
         <div class="col-xs-1" style="margin-bottom:0;">
             <button type="button" class="btn btn-success btn-xs" style="margin-top:0px;"><i class="voyager-plus"></i></button>
